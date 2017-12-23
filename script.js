@@ -1,5 +1,5 @@
-var $title = $('.title-input');
-var $body = $('.body-input');
+// var $title = $('.title-input');
+// var $body = $('.body-input');
 var $saveButton = $('.save-button');
 var $ideaList = $('.idea-list');
 var $searchBar = $('.search-input');
@@ -12,14 +12,16 @@ $searchBar.on('keyup', searchList);
 retrieveCard();
 
 function newIdea(event) {
+  var $title = $('.title-input');
+  var $body = $('.body-input');
   event.preventDefault();
-  var newCard = new MakeCard($title.val(), $body.val(), (new Date()).getTime());
-  newCard.appendCard();
+  var newCard = new MakeCard($title, $body, $title.val(), $body.val(), (new Date()).getTime());
+  prependCard(newCard);
   $title.val('');
   $body.val('');
 };
 
-function MakeCard(title, body, uniqueid) {
+function MakeCard($title, $body, title, body, uniqueid) {
   this.title = title;
   this.body = body;
   this.quality = "swill";
@@ -29,16 +31,17 @@ function MakeCard(title, body, uniqueid) {
   localStorage.setItem(this.uniqueid, stringifiedObject);
 }; 
 
-MakeCard.prototype.appendCard = function(){
+// MakeCard.prototype.appendCard = function(){
+  function prependCard (newCard) {
   $ideaList.prepend(
-    `<article class="card" id="${this.uniqueid}">
-      <h2 class="card-title" contenteditable="true">${this.title}</h2>
+    `<article class="card" id="${newCard.uniqueid}">
+      <h2 class="card-title" contenteditable="true">${newCard.title}</h2>
       <button class="card-buttons delete-button"></button>
-      <p class="card-body" contenteditable="true">${this.body}</p>
+      <p class="card-body" contenteditable="true">${newCard.body}</p>
       <nav>
         <button class="card-buttons up-vote"></button>
         <button class="card-buttons down-vote"></button>
-        <p class="quality">quality: ${this.quality}</p>
+        <p class="quality">quality: ${newCard.quality}</p>
       </nav>
     </article>`)
 };
@@ -47,18 +50,9 @@ function retrieveCard(){
   for(var i=0; i < localStorage.length; i++) {
   var retrievedObject = localStorage.getItem(localStorage.key(i));
   var parsedObject = JSON.parse(retrievedObject);
-  $ideaList.prepend(
-      `<article class="card" id="${parsedObject.uniqueid}">
-      <h2 class="card-title" contenteditable="true">${parsedObject.title}</h2>
-      <button class="card-buttons delete-button"></button>
-      <p class="card-body" contenteditable="true">${parsedObject.body}</p>
-      <nav>
-        <button class="card-buttons up-vote"></button>
-        <button class="card-buttons down-vote"></button>
-        <p class="quality">quality: ${parsedObject.quality}</p>
-      </nav>
-    </article>`)
-}};
+  prependCard(parsedObject);
+  };
+};
 
 function pushToStorage(id, object){
   var stringifiedObject = JSON.stringify(object);
