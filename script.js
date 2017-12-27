@@ -22,14 +22,19 @@ function newIdea(event) {
 };
 
 function MakeCard($title, $body, title, body, uniqueid) {
+  var qualityArray = ['None', 'Low', 'Normal', 'High', 'Critical']
   this.title = title;
   this.body = body;
-  this.quality = "swill";
+  this.quality = qualityArray[2];
   this.uniqueid = uniqueid;
-  var objectToStore = {uniqueid: this.uniqueid, title: $title.val(), body: $body.val(), quality: this.quality};
+  makeCardStorage(this.title, this.body, this.uniqueid, this.quality);
+};
+
+function makeCardStorage (title, body, uniqueid, quality) {
+  var objectToStore = {title: title, body: body, quality: quality};
   var stringifiedObject = JSON.stringify(objectToStore);
-  localStorage.setItem(this.uniqueid, stringifiedObject);
-}; 
+  localStorage.setItem(uniqueid, stringifiedObject);
+}
 
 // MakeCard.prototype.appendCard = function(){
   function prependCard (newCard) {
@@ -59,22 +64,43 @@ function pushToStorage(id, object){
   localStorage.setItem(id, stringifiedObject);
 }
 
-$('.idea-list').on('click', '.up-vote', function() {
-  if ($(this).closest('nav').children('p').text() === 'quality: swill') 
-    {$(this).siblings('.quality').text('quality: plausible');
-    var id = this.closest('article').getAttribute('id');
+// $('.idea-list').on('click', '.up-vote', function {
+//   if ($(this).closest('nav').children('p').text() === 'quality: swill') 
+//     {$(this).siblings('.quality').text('quality: plausible');
+    // var id = this.closest('article').getAttribute('id');
+    // var retrievedObject = localStorage.getItem(id);
+    // var parsedObject = JSON.parse(retrievedObject);
+    // parsedObject.quality = 'plausible';
+    // pushToStorage(id, parsedObject);
+//  } else if ($(this).closest('nav').children('p').text() === 'quality: plausible')
+//     {$(this).siblings('.quality').text('quality: genius')
+//     var id = this.closest('article').getAttribute('id');
+//     var retrievedObject = localStorage.getItem(id);
+//     var parsedObject = JSON.parse(retrievedObject);;
+//     parsedObject.quality = 'genius';
+//     pushToStorage(id, parsedObject);
+// }});
+
+$('.idea-list').on('click', '.up-vote', upVote);
+
+function upVote () {
+  if ($(this).closest('nav').children('p').text() === 'quality: Normal') {
+    $(this).siblings('.quality').text('quality: High')
+  } else if ($(this).closest('nav').children('p').text() === 'quality: High') {
+    $(this).siblings('.quality').text('quality: Critical')
+  }
+  persistInStorage(this);
+}
+
+function persistInStorage(j, quality) {
+var id = j.closest('article').getAttribute('id');
     var retrievedObject = localStorage.getItem(id);
     var parsedObject = JSON.parse(retrievedObject);
-    parsedObject.quality = 'plausible';
+    parsedObject.quality = quality;
     pushToStorage(id, parsedObject);
- } else if ($(this).closest('nav').children('p').text() === 'quality: plausible')
-    {$(this).siblings('.quality').text('quality: genius')
-    var id = this.closest('article').getAttribute('id');
-    var retrievedObject = localStorage.getItem(id);
-    var parsedObject = JSON.parse(retrievedObject);;
-    parsedObject.quality = 'genius';
-    pushToStorage(id, parsedObject);
-}});
+  }
+
+// function persisLocaStorage() 
 
 $('.idea-list').on('click', '.down-vote', function (){
   if ($(this).closest('nav').children('p').text() === 'quality: genius') 
