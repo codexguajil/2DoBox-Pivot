@@ -1,13 +1,7 @@
-// var $title = $('.title-input');
-// var $body = $('.body-input');
-var $saveButton = $('.save-button');
-var $ideaList = $('.idea-list');
-var $searchBar = $('.search-input');
-
-$saveButton.on('click', newIdea);
-$ideaList.on('blur', 'h2', editTitle);
-$ideaList.on('blur', '.card-body', editBody);
-$searchBar.on('keyup', searchList);
+$('.save-button').on('click', newIdea);
+$('.idea-list').on('blur', 'h2', editTitle);
+$('.idea-list').on('blur', '.card-body', editBody);
+$('.search-input').on('keyup', searchList);
 
 retrieveCard();
 
@@ -36,9 +30,8 @@ function makeCardStorage (title, body, uniqueid, quality) {
   localStorage.setItem(uniqueid, stringifiedObject);
 }
 
-// MakeCard.prototype.appendCard = function(){
   function prependCard (newCard) {
-  $ideaList.prepend(
+  $('.idea-list').prepend(
     `<article class="card" id="${newCard.uniqueid}">
       <h2 class="card-title" contenteditable="true">${newCard.title}</h2>
       <button class="card-buttons delete-button"></button>
@@ -64,23 +57,6 @@ function pushToStorage(id, object){
   var stringifiedObject = JSON.stringify(object);
   localStorage.setItem(id, stringifiedObject);
 }
-
-// $('.idea-list').on('click', '.up-vote', function {
-//   if ($(this).closest('nav').children('p').text() === 'quality: swill') 
-//     {$(this).siblings('.quality').text('quality: plausible');
-    // var id = this.closest('article').getAttribute('id');
-    // var retrievedObject = localStorage.getItem(id);
-    // var parsedObject = JSON.parse(retrievedObject);
-    // parsedObject.quality = 'plausible';
-    // pushToStorage(id, parsedObject);
-//  } else if ($(this).closest('nav').children('p').text() === 'quality: plausible')
-//     {$(this).siblings('.quality').text('quality: genius')
-//     var id = this.closest('article').getAttribute('id');
-//     var retrievedObject = localStorage.getItem(id);
-//     var parsedObject = JSON.parse(retrievedObject);;
-//     parsedObject.quality = 'genius';
-//     pushToStorage(id, parsedObject);
-// }});
 
 $('.idea-list').on('click', '.up-vote', upVote);
 $('.idea-list').on('click', '.up-vote', upVote2);
@@ -168,19 +144,12 @@ function editBody(card) {
   pushToStorage(id, parsedObject);
 };
 
-function searchList(e) {
-  event.preventDefault();
-  var titles = $('h2');
-  var bodies = $('.card-body');
-  var eachtitle = '';
-  var eachbody = '';
-  for (var i = 0; i < (titles.length || bodies.length); i++) { 
-    eachtitle = titles[i].innerText;
-    eachbody = bodies[i].innerText;
-    var searchInputTitle = eachtitle.includes($searchBar.val());
-    var searchInputBody = eachbody.includes($searchBar.val());
-  if (searchInputTitle === false && searchInputBody === false) {
+function searchList() {
+  for (var i = 0; i < ($('h2').length || $('.card-body').length); i++) { 
+    var eachtitle = $('h2')[i].innerText;
+    var eachbody = $('.card-body')[i].innerText;
+  if (eachtitle.includes($('.search-input').val()) === false && eachbody.includes($('.search-input').val()) === false) {
     $($('h2')[i]).parent().hide();
-  } else if (searchInputTitle === true || searchInputBody === true) {
+  } else if (eachtitle.includes($('.search-input').val()) === true || eachbody.includes($('.search-input').val()) === true) {
     $($('h2')[i]).parent().show();
 }}};
