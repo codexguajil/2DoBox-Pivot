@@ -3,8 +3,11 @@ $('.idea-list').on('blur', 'h2', editTitle);
 $('.idea-list').on('blur', '.card-task', editTask);
 $('.filter-input').on('keyup', filterList);
 $('.inputs').on('keyup', enableSave);
+$('.idea-list').on('click', '.completed-task', completeTask);
+$('.show-complete').on('click', showCompleted);
 
 retrieveCard();
+ hideMore();
 
 function enableSave () {
   var title = $('.title-input');
@@ -33,11 +36,12 @@ function MakeCard($title, $task, title, task, uniqueid) {
   this.task = task;
   this.counter = 2;
   this.uniqueid = uniqueid;
-  makeCardStorage(this.title, this.task, this.uniqueid, this.counter);
+  this.complete = false;
+  makeCardStorage(this.title, this.task, this.uniqueid, this.counter, this.complete);
 };
 
-function makeCardStorage (title, task, uniqueid, counter) {
-  var objectToStore = {title: title, task: task, counter: counter};
+function makeCardStorage (title, task, uniqueid, counter, complete) {
+  var objectToStore = {title: title, task: task, counter: counter, complete: complete};  
   var stringifiedObject = JSON.stringify(objectToStore);
   localStorage.setItem(uniqueid, stringifiedObject);
 }
@@ -54,9 +58,39 @@ function makeCardStorage (title, task, uniqueid, counter) {
         <button class="card-buttons down-vote"></button>
         <label for="quality">quality:</label>
         <p class="quality">${ratingArray[counter]}</p>
+        <button class="completed-task">Completed Task</button>
       </nav>
     </article>`)
+  // if (newCard.complete === true) {
+  //   $(this).hide();
+   
+  
 };
+
+function hideMore() {
+  for (let i = 0; i < localStorage.length; i++) {
+    var retrievedObject = localStorage.getItem(localStorage.key(i));
+    var parsedObject = JSON.parse(retrievedObject);
+  if (parsedObject.complete === true) {
+      var completedCardId = parsedObject.id
+      $(`#${completedCardId}`).hide()
+    } else {
+      $(`#${completedCardId}`).show()
+    }
+  }
+}
+
+function showCompleted() {
+  for (let i = 0; i < localStorage.length; i++) {
+    var retrievedObject = localStorage.getItem(localStorage.key(i));
+    var parsedObject = JSON.parse(retrievedObject);
+    if (parsedObject.complete === true) {
+      var completedCardId = parsedObject.id
+    $(`#${completedCardId}`).addClass('complete');
+    $(`#${completedCardId}`).show('slow');
+    }
+  }
+}
 
 function retrieveCard(){
   for(var i=0; i < localStorage.length; i++) {
@@ -193,3 +227,11 @@ function filterList() {
     $($('h2')[i]).parent().show();
 }}};
 
+function completeTask(card) {
+  var id = this.closest('article').getAttribute('id');
+    var retrievedObject = localStorage.getItem(id);
+    var parsedObject = JSON.parse(retrievedObject);
+    parsedObject.complete = true;
+    pushToStorage(id, parsedObject);
+  $(this).closest('article').toggleClass('complete');
+};
