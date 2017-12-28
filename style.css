@@ -57,12 +57,12 @@ span {
   color: #C1C2C4;
 }
 
-.search {
+.filter {
   margin: 10px 0;
   text-align: center;
 }
 
-.search-input {
+.filter-input {
   border: 0.05em solid #C1C2C4
   font-size: 1em;
   max-width: 500px;
