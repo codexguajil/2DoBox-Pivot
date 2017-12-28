@@ -1,31 +1,31 @@
-$('.save-button').on('click', newIdea);
+$('.save-button').on('click', newTask);
 $('.idea-list').on('blur', 'h2', editTitle);
-$('.idea-list').on('blur', '.card-body', editBody);
+$('.idea-list').on('blur', '.card-task', editTask);
 $('.filter-input').on('keyup', filterList);
 
 retrieveCard();
 
-function newIdea(event) {
+function newTask(event) {
   var $title = $('.title-input');
-  var $body = $('.body-input');
+  var $task = $('.task-input');
   event.preventDefault();
-  var newCard = new MakeCard($title, $body, $title.val(), $body.val(), (new Date()).getTime());
+  var newCard = new MakeCard($title, $task, $title.val(), $task.val(), (new Date()).getTime());
   prependCard(newCard);
   $title.val('');
-  $body.val('');
+  $task.val('');
 };
 
-function MakeCard($title, $body, title, body, uniqueid) {
+function MakeCard($title, $task, title, task, uniqueid) {
   var qualityArray = ['None', 'Low', 'Normal', 'High', 'Critical']
   this.title = title;
-  this.body = body;
+  this.task = task;
   this.quality = qualityArray[2];
   this.uniqueid = uniqueid;
-  makeCardStorage(this.title, this.body, this.uniqueid, this.quality);
+  makeCardStorage(this.title, this.task, this.uniqueid, this.quality);
 };
 
-function makeCardStorage (title, body, uniqueid, quality) {
-  var objectToStore = {title: title, body: body, quality: quality};
+function makeCardStorage (title, task, uniqueid, quality) {
+  var objectToStore = {title: title, task: task, quality: quality};
   var stringifiedObject = JSON.stringify(objectToStore);
   localStorage.setItem(uniqueid, stringifiedObject);
 }
@@ -35,7 +35,7 @@ function makeCardStorage (title, body, uniqueid, quality) {
     `<article class="card" id="${newCard.uniqueid}">
       <h2 class="card-title" contenteditable="true">${newCard.title}</h2>
       <button class="card-buttons delete-button"></button>
-      <p class="card-body" contenteditable="true">${newCard.body}</p>
+      <p class="card-task" contenteditable="true">${newCard.task}</p>
       <nav>
         <button class="card-buttons up-vote"></button>
         <button class="card-buttons down-vote"></button>
@@ -135,22 +135,22 @@ function editTitle(card) {
   pushToStorage(id, parsedObject);
 };
 
-function editBody(card) {
+function editTask(card) {
   var id = this.closest('article').getAttribute('id');
-  var newTitle = $(this).closest('.card-body').text();
+  var newTitle = $(this).closest('.card-task').text();
   var retrievedObject = localStorage.getItem(id);
   var parsedObject = JSON.parse(retrievedObject);
-  parsedObject.body = newTitle;
+  parsedObject.task = newTitle;
   pushToStorage(id, parsedObject);
 };
 
 function filterList() {
-  for (var i = 0; i < ($('h2').length || $('.card-body').length); i++) { 
+  for (var i = 0; i < ($('h2').length || $('.card-task').length); i++) { 
     var eachtitle = $('h2')[i].innerText;
-    var eachbody = $('.card-body')[i].innerText;
-  if (eachtitle.includes($('.filter-input').val()) === false && eachbody.includes($('.filter-input').val()) === false) {
+    var eachtask = $('.card-task')[i].innerText;
+  if (eachtitle.includes($('.filter-input').val()) === false && eachtask.includes($('.filter-input').val()) === false) {
     $($('h2')[i]).parent().hide();
-  } else if (eachtitle.includes($('.filter-input').val()) === true || eachbody.includes($('.filter-input').val()) === true) {
+  } else if (eachtitle.includes($('.filter-input').val()) === true || eachtask.includes($('.filter-input').val()) === true) {
     $($('h2')[i]).parent().show();
 }}};
 
