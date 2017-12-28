@@ -96,7 +96,7 @@ function retrieveCard(){
   for(var i=0; i < localStorage.length; i++) {
   var retrievedObject = localStorage.getItem(localStorage.key(i));
   var parsedObject = JSON.parse(retrievedObject);
-  prependCard(parsedObject.id, parsedObject.title, parsedObject.task, parsedObject.counter);
+  prependCard(parsedObject, parsedObject.id, parsedObject.title, parsedObject.task, parsedObject.counter);
   };
 };
 
@@ -104,48 +104,6 @@ function pushToStorage(id, object){
   var stringifiedObject = JSON.stringify(object);
   localStorage.setItem(id, stringifiedObject);
 }
-
-// $('.idea-list').on('click', '.up-vote', upVote);
-// $('.idea-list').on('click', '.up-vote', upVote2);
-// $('.idea-list').on('click', '.down-vote', downVote);
-// $('.idea-list').on('click', '.down-vote', downVote2);
-
-
-// function upVote () {
-//   if ($(this).closest('nav').children('p').text() === 'Normal') {
-//     $(this).siblings('.quality').text('High');
-//     var quality = $('.quality').text();
-//     persistInStorage(this, quality);
-//   } else if ($(this).closest('nav').children('p').text() === 'High') {
-//     $(this).siblings('.quality').text('Critical')
-//     var quality = $('.quality').text();
-//     persistInStorage(this, quality);
-//   }
-// }
-
-// function downVote () {
-//   if ($(this).closest('nav').children('p').text() === 'Normal') {
-//     $(this).siblings('.quality').text('Low');
-//     var quality = $('.quality').text();
-//     persistInStorage(this, quality);
-//   } else if ($(this).closest('nav').children('p').text() === 'Low') {
-//     $(this).siblings('.quality').text('None')
-//     var quality = $('.quality').text();
-//     persistInStorage(this, quality);
-//   }
-// }
-
-// function upVote2 () {
-//   if ($(this).closest('nav').children('p').text() === 'None') {
-//     $(this).siblings('.quality').text('Low');
-//     var quality = $('.quality').text();
-//     persistInStorage(this, quality);
-//   } else if ($(this).closest('nav').children('p').text() === 'Low') {
-//     $(this).siblings('.quality').text('Normal')
-//     var quality = $('.quality').text();
-//     persistInStorage(this, quality);
-//   }
-// }
 
 // function downVote2 () {
 //   if ($(this).closest('nav').children('p').text() === 'Critical') {
