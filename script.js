@@ -2,8 +2,19 @@ $('.save-button').on('click', newTask);
 $('.idea-list').on('blur', 'h2', editTitle);
 $('.idea-list').on('blur', '.card-task', editTask);
 $('.filter-input').on('keyup', filterList);
+$('.inputs').on('keyup', enableSave);
 
 retrieveCard();
+
+function enableSave () {
+  var title = $('.title-input');
+  var task = $('.task-input');
+  if (title.val() != '' && task.val() != '') {
+  $('.save-button').attr('disabled', false);
+  } else {
+    $('.save-button').attr('disabled', true);
+  }
+}
 
 function newTask(event) {
   var $title = $('.title-input');
@@ -13,6 +24,7 @@ function newTask(event) {
   prependCard(newCard);
   $title.val('');
   $task.val('');
+  $('.save-button').attr('disabled', true);
 };
 
 function MakeCard($title, $task, title, task, uniqueid) {

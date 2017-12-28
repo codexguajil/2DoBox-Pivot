@@ -49,6 +49,14 @@ span {
   width: 50%;
 }
 
+.save-button:disabled {
+  background: black;
+}
+
+.save-button:disabled:hover {
+  background: black;
+}
+
 .save-button:hover {
   background-color: #045E55;
 }
