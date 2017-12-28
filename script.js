@@ -1,7 +1,7 @@
 $('.save-button').on('click', newIdea);
 $('.idea-list').on('blur', 'h2', editTitle);
 $('.idea-list').on('blur', '.card-body', editBody);
-$('.search-input').on('keyup', searchList);
+$('.filter-input').on('keyup', filterList);
 
 retrieveCard();
 
@@ -144,12 +144,13 @@ function editBody(card) {
   pushToStorage(id, parsedObject);
 };
 
-function searchList() {
+function filterList() {
   for (var i = 0; i < ($('h2').length || $('.card-body').length); i++) { 
     var eachtitle = $('h2')[i].innerText;
     var eachbody = $('.card-body')[i].innerText;
-  if (eachtitle.includes($('.search-input').val()) === false && eachbody.includes($('.search-input').val()) === false) {
+  if (eachtitle.includes($('.filter-input').val()) === false && eachbody.includes($('.filter-input').val()) === false) {
     $($('h2')[i]).parent().hide();
-  } else if (eachtitle.includes($('.search-input').val()) === true || eachbody.includes($('.search-input').val()) === true) {
+  } else if (eachtitle.includes($('.filter-input').val()) === true || eachbody.includes($('.filter-input').val()) === true) {
     $($('h2')[i]).parent().show();
 }}};
+
