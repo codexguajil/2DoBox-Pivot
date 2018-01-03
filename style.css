@@ -37,7 +37,8 @@ span {
   margin-bottom: 5px;
 }
 
-.save-button {
+.save-button,
+.show-complete {
   border-radius: 0;
   border: none;
   background-color: #00A79D;
@@ -57,7 +58,8 @@ span {
   background: black;
 }
 
-.save-button:hover {
+.save-button:hover,
+.show-complete:hover {
   background-color: #045E55;
 }
 
@@ -160,6 +162,14 @@ textarea {
 
 nav {
   margin-bottom: 20px;
+}
+
+.completed-task {
+  border: none;
+}
+
+.complete {
+  background-color: #6E7A82;
 }
 
 @media screen and (max-width: 500px) {
