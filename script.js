@@ -6,9 +6,7 @@ $('.inputs').on('keyup', enableSave);
 $('.idea-list').on('click', '.completed-task', completeTask);
 $('.show-complete').on('click', showCompleted);
 $('.idea-list').on('click', '.up-vote', upVote);
-$('.idea-list').on('click', '.up-vote', upVote2);
 $('.idea-list').on('click', '.down-vote', downVote);
-$('.idea-list').on('click', '.down-vote', downVote2);
 $('.idea-list').on('click', '.delete-button', deleteCard);
 
 
@@ -42,11 +40,12 @@ function MakeCard(title, task, id) {
   this.task = task;
   this.id = id;
   this.counter = 2;
-  makeCardStorage(this.title, this.task, this.id, this.counter);
+  this.completed = false;
+  makeCardStorage(this.title, this.task, this.id, this.counter, this.completed);
 };
 
-function makeCardStorage (title, task, id, counter) {
-  var objectToStore = {id: id, title: title, task: task, counter: counter};
+function makeCardStorage (title, task, id, counter, completed) {
+  var objectToStore = {id: id, title: title, task: task, counter: counter, completed: completed};
   var stringifiedObject = JSON.stringify(objectToStore);
   localStorage.setItem(id, stringifiedObject);
 }
@@ -63,15 +62,16 @@ function makeCardStorage (title, task, id, counter) {
         <button class="card-buttons down-vote"></button>
         <label for="quality">quality:</label>
         <p class="quality">${ratingArray[counter]}</p>
+        <button class="completed-task">Completed Task</button>
       </nav>
-    </article>`) 
+    </article>`)
 };
 
 function retrieveCard(){
   for(var i = 0; i < localStorage.length; i++) {
   var retrievedObject = localStorage.getItem(localStorage.key(i));
   var parsedObject = JSON.parse(retrievedObject);
-  prependCard(parsedObject, parsedObject.id, parsedObject.title, parsedObject.task, parsedObject.counter);
+  prependCard(parsedObject, parsedObject.id, parsedObject.title, parsedObject.task, parsedObject.counter, parsedObject.completed);
   };
   displayTen();
 };
@@ -159,10 +159,35 @@ function completeTask(card) {
   var id = this.closest('article').getAttribute('id');
     var retrievedObject = localStorage.getItem(id);
     var parsedObject = JSON.parse(retrievedObject);
-    parsedObject.complete = true;
+    parsedObject.completed = !parsedObject.completed;
+    $(this).closest('article').toggleClass('complete');
     pushToStorage(id, parsedObject);
-  $(this).closest('article').toggleClass('complete');
 };
+
+function showCompleted() {
+  for (let i = 0; i < localStorage.length; i++) {
+    var retrievedObject = localStorage.getItem(localStorage.key(i));
+    var parsedObject = JSON.parse(retrievedObject);
+    if (parsedObject.completed === true) {
+      var completedCardId = parsedObject.id
+    $(`#${completedCardId}`).addClass('complete');
+    $(`#${completedCardId}`).show('slow');
+    }
+  }
+}
+
+function hideMore() {
+  for (let i = 0; i < localStorage.length; i++) {
+    var retrievedObject = localStorage.getItem(localStorage.key(i));
+    var parsedObject = JSON.parse(retrievedObject);
+  if (parsedObject.completed === true) {
+      var completedCardId = parsedObject.id
+      $(`#${completedCardId}`).hide()
+    } else {
+      $(`#${completedCardId}`).show()
+    }
+  }
+}
 
 // displayTen();
 function displayTen(){
