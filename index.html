@@ -12,14 +12,14 @@
   <header>
     <h1 class="title">2do<span>box</span></h1>
     <form action="">
-      <input class="inputs title-input" type="text" placeholder="Title">
-      <textarea class="inputs task-input" type="text" placeholder="Task" wrap="hard" rows="3"></textarea>
+      <input class="inputs title-input" type="text" placeholder="Title" maxlength="120">
+      <textarea class="inputs task-input" type="text" placeholder="Task" wrap="hard" rows="3" maxlength="120"></textarea>
       <button class="save-button" disabled="true">save</button>
     </form>
   </header>
   <section class="filter">
     <input class="filter-input" type="text" placeholder="Filter">
-     <div>
+     <div class="important-bttns">
       <button class="critical importance">critical</button>
       <button class="high importance">high</button>
       <button class="normal importance">normal</button>
@@ -27,11 +27,11 @@
       <button class="none importance">none</button>
       <button class="show-all importance">show all</button>
     </div>
-   <button class="show-complete importance">show completed</button>
+   <button class="show-complete">show completed</button>
   </section>
   <section class="idea-list">
   </section>
-  <section>
+  <section class="show-more2">
      <button class="show-more">show more</button>
   </section>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
