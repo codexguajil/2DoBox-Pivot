@@ -8,10 +8,12 @@ $('.show-complete').on('click', showCompleted);
 $('.idea-list').on('click', '.up-vote', upVote);
 $('.idea-list').on('click', '.down-vote', downVote);
 $('.idea-list').on('click', '.delete-button', deleteCard);
+$('.show-more').on('click', showMore);
 
 
 retrieveCard();
 hideMore();
+displayTen();
 
 function enableSave () {
   var title = $('.title-input');
@@ -73,7 +75,7 @@ function retrieveCard(){
   var parsedObject = JSON.parse(retrievedObject);
   prependCard(parsedObject, parsedObject.id, parsedObject.title, parsedObject.task, parsedObject.counter, parsedObject.completed);
   };
-  displayTen();
+  displayTen(parsedObject);
 };
 
 function pushToStorage(id, object){
@@ -189,12 +191,14 @@ function hideMore() {
   }
 }
 
-// displayTen();
-function displayTen(){
-  // $('article').slice(0, 6).show();}
-  $('.show-more').on('click', function () {
+function showMore(){
   $('article:hidden').slice(0, 10).slideDown();
-  if ($('article:hidden').length == 0) {
-  $('article').fadeOut('slow');
+}
+
+function displayTen() {
+  var objArr = Array.from($('article:visible'));
+  $('article:visible').hide();
+  for (var j = 0 ; j < 10; j++) {
+    $(`#${objArr[j].id}`).show()
   }
-})}
+}
