@@ -16,11 +16,8 @@ $('.low').on('click', filterImportanceLow);
 $('.none').on('click', filterImportanceNone);
 $('.show-all').on('click', filterImportanceAll);
 
-
-
 retrieveCard();
 hideMore();
-displayTen();
 
 function enableSave () {
   var title = $('.title-input');
@@ -181,7 +178,7 @@ function showCompleted() {
       var completedCardId = parsedObject.id
     $(`#${completedCardId}`).addClass('complete');
     $(`#${completedCardId}`).show('slow');
-    }
+    } else { }
   }
 }
 

@@ -94,6 +94,7 @@ span {
   max-width: 500px;
   right: 33%;
   width: 50%;
+  margin-bottom: 6px;
   /*display: block;*/
 }
 
@@ -187,7 +188,8 @@ nav {
   border: none;
   background-color: #00A79D;
   color: #FFFFFF;
-  margin-left: 34%;
+  margin-right: 4px;
+  float: right
 }
 
 .complete {
