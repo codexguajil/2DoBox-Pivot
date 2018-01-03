@@ -14,7 +14,9 @@ $('.critical').on('click', filterImportanceCritical);
 $('.high').on('click', filterImportanceHigh);
 $('.low').on('click', filterImportanceLow);
 $('.none').on('click', filterImportanceNone);
-$('.show-all').on('click', filterImportanceAll)
+$('.show-all').on('click', filterImportanceAll);
+
+
 
 retrieveCard();
 hideMore();
@@ -67,7 +69,7 @@ function makeCardStorage (title, task, id, counter, completed) {
       <nav>
         <button class="card-buttons up-vote"></button>
         <button class="card-buttons down-vote"></button>
-        <label for="quality">quality:</label>
+        <label for="quality">importance:</label>
         <p class="quality">${ratingArray[counter]}</p>
         <button class="completed-task">Completed Task</button>
       </nav>
