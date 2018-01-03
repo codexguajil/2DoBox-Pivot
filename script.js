@@ -20,32 +20,32 @@ function newTask(event) {
   var $title = $('.title-input');
   var $task = $('.task-input');
   event.preventDefault();
-  var newCard = new MakeCard($title, $task, $title.val(), $task.val(), (new Date()).getTime());
+  var newCard = new MakeCard($title.val(), $task.val(), Date.now());
   prependCard(newCard);
   $title.val('');
   $task.val('');
   $('.save-button').attr('disabled', true);
 };
 
-function MakeCard($title, $task, title, task, uniqueid) {
+function MakeCard(title, task, id) {
   // var qualityArray = ['None', 'Low', 'Normal', 'High', 'Critical']
   this.title = title;
   this.task = task;
+  this.id = id;
   this.counter = 2;
-  this.uniqueid = uniqueid;
-  makeCardStorage(this.title, this.task, this.uniqueid, this.counter);
+  makeCardStorage(this.title, this.task, this.id, this.counter);
 };
 
-function makeCardStorage (title, task, uniqueid, counter) {
-  var objectToStore = {title: title, task: task, counter: counter};
+function makeCardStorage (title, task, id, counter) {
+  var objectToStore = {id: id, title: title, task: task, counter: counter};
   var stringifiedObject = JSON.stringify(objectToStore);
-  localStorage.setItem(uniqueid, stringifiedObject);
+  localStorage.setItem(id, stringifiedObject);
 }
 
   function prependCard (newCard, id, title, task, counter = 2) {
     var ratingArray = ['None', 'Low', 'Normal', 'High', 'Critical']
   $('.idea-list').prepend(
-    `<article class="card" id="${newCard.uniqueid}">
+    `<article class="card" id="${newCard.id}">
       <h2 class="card-title" contenteditable="true">${newCard.title}</h2>
       <button class="card-buttons delete-button"></button>
       <p class="card-task" contenteditable="true">${newCard.task}</p>
@@ -59,7 +59,7 @@ function makeCardStorage (title, task, uniqueid, counter) {
 };
 
 function retrieveCard(){
-  for(var i=0; i < localStorage.length; i++) {
+  for(var i = 0; i < localStorage.length; i++) {
   var retrievedObject = localStorage.getItem(localStorage.key(i));
   var parsedObject = JSON.parse(retrievedObject);
   prependCard(parsedObject, parsedObject.id, parsedObject.title, parsedObject.task, parsedObject.counter);
@@ -71,46 +71,44 @@ function pushToStorage(id, object){
   localStorage.setItem(id, stringifiedObject);
 }
 
-// function downVote2 () {
-//   if ($(this).closest('nav').children('p').text() === 'Critical') {
-//     $(this).siblings('.quality').text('High');
-//     var quality = $('.quality').text();
-//     persistInStorage(this, quality);
-//   } else if ($(this).closest('nav').children('p').text() === 'High') {
-//     $(this).siblings('.quality').text('Normal')
-//     var quality = $('.quality').text();
-//     persistInStorage(this, quality);
-//     console.log(quality);
-//   }
-// }
-
-// function persistInStorage(upvote, quality) {
-// var id = upvote.closest('article').getAttribute('id');
-//     var retrievedObject = localStorage.getItem(id);
-//     var parsedObject = JSON.parse(retrievedObject);
-//     parsedObject.quality = quality;
-//     pushToStorage(id, parsedObject);
-//   }
-
 $('.idea-list').on('click', '.up-vote', upVote);
+$('.idea-list').on('click', '.down-vote', downVote);
 
 function upVote() {
   var clickedCardId = $(this).closest('article').attr('id');
   var theObject = localStorage.getItem(clickedCardId);
-
   var parsedTheObject = JSON.parse(theObject);
-  // $(this).siblings('.downvote-button').removeAttr('disabled');
+  $(this).siblings('.down-vote').removeAttr('disabled');
   upVoteToLocalStorage(clickedCardId, theObject, parsedTheObject, this);
 }
 
 function upVoteToLocalStorage(id, obj, parsedObj, thisEl) {
   var ratingArray = ['None', 'Low', 'Normal', 'High', 'Critical'];
-  // $(thisEl).siblings('.downvote-button').removeAttr('disabled');
+  $(thisEl).siblings('.down-vote').removeAttr('disabled');
   if (parsedObj.counter === 4) {
     $(thisEl).attr('disabled', true);
     } else {
     parsedObj.counter++;
-    console.log(parsedObj.counter)
+    $(thisEl).closest('article').find('.quality').text(ratingArray[parsedObj.counter]);
+    localStorage.setItem(id, JSON.stringify(parsedObj));
+  };
+}
+
+function downVote() {
+  var clickedCardId = $(this).closest('article').attr('id');
+  var theObject = localStorage.getItem(clickedCardId);
+  var parsedTheObject = JSON.parse(theObject);
+  $(this).siblings('.up-vote').removeAttr('disabled');
+  downVoteToLocalStorage(clickedCardId, theObject, parsedTheObject, this);
+}
+
+function downVoteToLocalStorage(id, obj, parsedObj, thisEl) {
+  var ratingArray = ['None', 'Low', 'Normal', 'High', 'Critical'];
+  $(thisEl).siblings('.up-vote').removeAttr('disabled');
+  if (parsedObj.counter === 0) {
+    $(thisEl).attr('disabled', true);
+    } else {
+    parsedObj.counter--;
     $(thisEl).closest('article').find('.quality').text(ratingArray[parsedObj.counter]);
     localStorage.setItem(id, JSON.stringify(parsedObj));
   };
