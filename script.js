@@ -11,6 +11,10 @@ $('.idea-list').on('click', '.delete-button', deleteCard);
 $('.show-more').on('click', showMore);
 $('.normal').on('click', filterImportanceNormal);
 $('.critical').on('click', filterImportanceCritical);
+$('.high').on('click', filterImportanceHigh);
+$('.low').on('click', filterImportanceLow);
+$('.none').on('click', filterImportanceNone);
+$('.show-all').on('click', filterImportanceAll)
 
 retrieveCard();
 hideMore();
@@ -211,21 +215,69 @@ function filterImportanceNormal( ) {
   var retrievedObject = localStorage.getItem(localStorage.key(i));
   var parsedObject = JSON.parse(retrievedObject);
   var parsedObjectId = parsedObject.id;
-  } if (parsedObject.counter === 2) {
+   if (parsedObject.counter === 2) {
      $(`#${parsedObjectId}`).show()
-  } else  {$(`#${parsedObjectId}`).hide()
+  } else  {
+    $(`#${parsedObjectId}`).hide()
 } 
-}
+}}
 
 function filterImportanceCritical() {
-  console.log('hi')
-  var ratingArray = ['None', 'Low', 'Normal', 'High', 'Critical'];
+    for (let i = 0; i < localStorage.length; i++) {
+  var retrievedObject = localStorage.getItem(localStorage.key(i));
+  var parsedObject = JSON.parse(retrievedObject);
+  var parsedObjectId = parsedObject.id;
+   if (parsedObject.counter === 4) {
+     $(`#${parsedObjectId}`).show()
+  } else  {
+    $(`#${parsedObjectId}`).hide()
+} 
+}
+}
+
+function filterImportanceHigh() {
   for (let i = 0; i < localStorage.length; i++) {
   var retrievedObject = localStorage.getItem(localStorage.key(i));
   var parsedObject = JSON.parse(retrievedObject);
   var parsedObjectId = parsedObject.id;
-  } if (parsedObject.counter === 4) {
+   if (parsedObject.counter === 3) {
      $(`#${parsedObjectId}`).show()
-  } else  {$(`#${parsedObjectId}`).hide()
+  } else  {
+    $(`#${parsedObjectId}`).hide()
 } 
 }
+}
+
+function filterImportanceLow() {
+    for (let i = 0; i < localStorage.length; i++) {
+  var retrievedObject = localStorage.getItem(localStorage.key(i));
+  var parsedObject = JSON.parse(retrievedObject);
+  var parsedObjectId = parsedObject.id;
+   if (parsedObject.counter === 1) {
+     $(`#${parsedObjectId}`).show()
+  } else  {
+    $(`#${parsedObjectId}`).hide()
+} 
+}
+}
+
+function filterImportanceNone() {
+  for (let i = 0; i < localStorage.length; i++) {
+  var retrievedObject = localStorage.getItem(localStorage.key(i));
+  var parsedObject = JSON.parse(retrievedObject);
+  var parsedObjectId = parsedObject.id;
+  if (parsedObject.counter === 0) {
+  $(`#${parsedObjectId}`).show()
+  } else  {
+    $(`#${parsedObjectId}`).hide()
+} 
+}
+}
+
+function filterImportanceAll() {
+  for (let i = 0; i < localStorage.length; i++) {
+  var retrievedObject = localStorage.getItem(localStorage.key(i));
+  var parsedObject = JSON.parse(retrievedObject);
+  var parsedObjectId = parsedObject.id; 
+     $(`#${parsedObjectId}`).show()
+ }}
