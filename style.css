@@ -66,13 +66,8 @@ span {
   background-color: #045E55;
 }
 
-.show-complete {
-  margin: 10px 465px;
-  display: block;
-}
-
 .show-more {
-  margin: 15px 467px;
+  margin-left: 32.5%;
 }
 
 ::placeholder {
@@ -84,13 +79,25 @@ span {
   text-align: center;
 }
 
+div {
+  
+}
+
+.importance {
+  background-color: #00A79D;
+  color: #FFFFFF;
+
+}
+
 .filter-input {
   border: 0.05em solid #C1C2C4
   font-size: 1em;
   max-width: 500px;
   right: 33%;
   width: 50%;
+  display: block;
 }
+
 
 .card {
   border-bottom: 1px solid #d1d3d4;

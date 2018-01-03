@@ -8,7 +8,8 @@ $('.show-complete').on('click', showCompleted);
 $('.idea-list').on('click', '.up-vote', upVote);
 $('.idea-list').on('click', '.down-vote', downVote);
 $('.idea-list').on('click', '.delete-button', deleteCard);
-
+$('.normal').on('click', filterImportanceNormal);
+$('.critical').on('click', filterImportanceCritial);
 
 retrieveCard();
 hideMore();
@@ -193,8 +194,40 @@ function hideMore() {
 function displayTen(){
   // $('article').slice(0, 6).show();}
   $('.show-more').on('click', function () {
-  $('article:hidden').slice(0, 10).slideDown();
+  $('article:hidden').slice(0, 3).slideDown();
   if ($('article:hidden').length == 0) {
   $('article').fadeOut('slow');
   }
 })}
+
+
+
+
+
+function filterImportanceNormal( ) {
+  var ratingArray = ['None', 'Low', 'Normal', 'High', 'Critical'];
+  for (let i = 0; i < localStorage.length; i++) {
+  var retrievedObject = localStorage.getItem(localStorage.key(i));
+  var parsedObject = JSON.parse(retrievedObject);
+  var parsedObjectId = parsedObject.id;
+  } if (parsedObject.counter === 2) {
+     $(`#${parsedObjectId}`).show()
+  } else  {$(`#${parsedObjectId}`).hide()
+} 
+}
+
+function filterImportanceCritial() {
+  console.log('hi')
+  var ratingArray = ['None', 'Low', 'Normal', 'High', 'Critical'];
+  for (let i = 0; i < localStorage.length; i++) {
+  var retrievedObject = localStorage.getItem(localStorage.key(i));
+  var parsedObject = JSON.parse(retrievedObject);
+  var parsedObjectId = parsedObject.id;
+  } if (parsedObject.counter === 4) {
+     $(`#${parsedObjectId}`).show()
+  } else  {$(`#${parsedObjectId}`).hide()
+} 
+}
+
+
+
