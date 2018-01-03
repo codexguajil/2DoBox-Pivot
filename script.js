@@ -18,7 +18,6 @@ $('.show-all').on('click', filterImportanceAll);
 
 retrieveCard();
 hideMore();
-displayTen();
 
 function enableSave () {
   var title = $('.title-input');
@@ -80,7 +79,6 @@ function retrieveCard(){
   var parsedObject = JSON.parse(retrievedObject);
   prependCard(parsedObject, parsedObject.id, parsedObject.title, parsedObject.task, parsedObject.counter, parsedObject.completed);
   };
-  displayTen(parsedObject);
 };
 
 function pushToStorage(id, object){
@@ -184,16 +182,18 @@ function showCompleted() {
 }
 
 function hideMore() {
+  console.log('hi')
   for (let i = 0; i < localStorage.length; i++) {
     var retrievedObject = localStorage.getItem(localStorage.key(i));
     var parsedObject = JSON.parse(retrievedObject);
+    console.log(parsedObject)
   if (parsedObject.completed === true) {
       var completedCardId = parsedObject.id
       $(`#${completedCardId}`).hide()
     } else {
       $(`#${completedCardId}`).show()
     }
-  }
+  } displayTen();
 }
 
 
