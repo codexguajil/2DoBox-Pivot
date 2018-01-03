@@ -177,7 +177,7 @@ function showCompleted() {
       var completedCardId = parsedObject.id
     $(`#${completedCardId}`).addClass('complete');
     $(`#${completedCardId}`).show('slow');
-    }
+    } else { }
   }
 }
 
