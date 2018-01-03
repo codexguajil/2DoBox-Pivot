@@ -5,9 +5,15 @@ $('.filter-input').on('keyup', filterList);
 $('.inputs').on('keyup', enableSave);
 $('.idea-list').on('click', '.completed-task', completeTask);
 $('.show-complete').on('click', showCompleted);
+$('.idea-list').on('click', '.up-vote', upVote);
+$('.idea-list').on('click', '.up-vote', upVote2);
+$('.idea-list').on('click', '.down-vote', downVote);
+$('.idea-list').on('click', '.down-vote', downVote2);
+
 
 retrieveCard();
- hideMore();
+hideMore();
+
 
 function enableSave () {
   var title = $('.title-input');
@@ -59,11 +65,7 @@ function makeCardStorage (title, task, uniqueid, quality, complete) {
         <p class="quality">${newCard.quality}</p>
         <button class="completed-task">Completed Task</button>
       </nav>
-    </article>`)
-  // if (newCard.complete === true) {
-  //   $(this).hide();
-   
-  
+    </article>`) 
 };
 
 function hideMore() {
@@ -97,17 +99,13 @@ function retrieveCard(){
   var parsedObject = JSON.parse(retrievedObject);
   prependCard(parsedObject);
   };
+  displayTen();
 };
 
 function pushToStorage(id, object){
   var stringifiedObject = JSON.stringify(object);
   localStorage.setItem(id, stringifiedObject);
 }
-
-$('.idea-list').on('click', '.up-vote', upVote);
-$('.idea-list').on('click', '.up-vote', upVote2);
-$('.idea-list').on('click', '.down-vote', downVote);
-$('.idea-list').on('click', '.down-vote', downVote2);
 
 function upVote () {
   if ($(this).closest('nav').children('p').text() === 'Normal') {
@@ -146,6 +144,7 @@ function upVote2 () {
 }
 
 function downVote2 () {
+
   if ($(this).closest('nav').children('p').text() === 'Critical') {
     $(this).siblings('.quality').text('High');
     var quality = $('.quality').text();
@@ -208,3 +207,13 @@ function completeTask(card) {
     pushToStorage(id, parsedObject);
   $(this).closest('article').toggleClass('complete');
 };
+
+// displayTen();
+function displayTen(){
+  // $('article').slice(0, 6).show();}
+  $('.show-more').on('click', function () {
+  $('article:hidden').slice(0, 10).slideDown();
+  if ($('article:hidden').length == 0) {
+  $('article').fadeOut('slow');
+  }
+})}
