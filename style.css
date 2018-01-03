@@ -31,6 +31,7 @@ span {
   font-size: 1em;
   max-width: 500px;
   width: 50%;
+  margin-top: 10px;
 }
 
 .title-input {
@@ -38,7 +39,8 @@ span {
 }
 
 .save-button,
-.show-complete {
+.show-complete,
+.show-more {
   border-radius: 0;
   border: none;
   background-color: #00A79D;
@@ -59,8 +61,18 @@ span {
 }
 
 .save-button:hover,
-.show-complete:hover {
+.show-complete:hover, 
+.show-more:hover {
   background-color: #045E55;
+}
+
+.show-complete {
+  margin: 10px 465px;
+  display: block;
+}
+
+.show-more {
+  margin: 15px 467px;
 }
 
 ::placeholder {

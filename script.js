@@ -3,8 +3,17 @@ $('.idea-list').on('blur', 'h2', editTitle);
 $('.idea-list').on('blur', '.card-task', editTask);
 $('.filter-input').on('keyup', filterList);
 $('.inputs').on('keyup', enableSave);
+$('.idea-list').on('click', '.completed-task', completeTask);
+$('.show-complete').on('click', showCompleted);
+$('.idea-list').on('click', '.up-vote', upVote);
+$('.idea-list').on('click', '.up-vote', upVote2);
+$('.idea-list').on('click', '.down-vote', downVote);
+$('.idea-list').on('click', '.down-vote', downVote2);
+$('.idea-list').on('click', '.delete-button', deleteCard);
+
 
 retrieveCard();
+hideMore();
 
 function enableSave () {
   var title = $('.title-input');
@@ -55,7 +64,7 @@ function makeCardStorage (title, task, id, counter) {
         <label for="quality">quality:</label>
         <p class="quality">${ratingArray[counter]}</p>
       </nav>
-    </article>`)
+    </article>`) 
 };
 
 function retrieveCard(){
@@ -64,15 +73,13 @@ function retrieveCard(){
   var parsedObject = JSON.parse(retrievedObject);
   prependCard(parsedObject, parsedObject.id, parsedObject.title, parsedObject.task, parsedObject.counter);
   };
+  displayTen();
 };
 
 function pushToStorage(id, object){
   var stringifiedObject = JSON.stringify(object);
   localStorage.setItem(id, stringifiedObject);
 }
-
-$('.idea-list').on('click', '.up-vote', upVote);
-$('.idea-list').on('click', '.down-vote', downVote);
 
 function upVote() {
   var clickedCardId = $(this).closest('article').attr('id');
@@ -114,7 +121,6 @@ function downVoteToLocalStorage(id, obj, parsedObj, thisEl) {
   };
 }
 
-$('.idea-list').on('click', '.delete-button', deleteCard);
 function deleteCard() {
   var id = this.closest('article').getAttribute('id');
   localStorage.removeItem(id);
@@ -149,3 +155,21 @@ function filterList() {
     $($('h2')[i]).parent().show();
 }}};
 
+function completeTask(card) {
+  var id = this.closest('article').getAttribute('id');
+    var retrievedObject = localStorage.getItem(id);
+    var parsedObject = JSON.parse(retrievedObject);
+    parsedObject.complete = true;
+    pushToStorage(id, parsedObject);
+  $(this).closest('article').toggleClass('complete');
+};
+
+// displayTen();
+function displayTen(){
+  // $('article').slice(0, 6).show();}
+  $('.show-more').on('click', function () {
+  $('article:hidden').slice(0, 10).slideDown();
+  if ($('article:hidden').length == 0) {
+  $('article').fadeOut('slow');
+  }
+})}
