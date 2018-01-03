@@ -56,7 +56,7 @@ function makeCardStorage (title, task, id, counter, completed) {
   localStorage.setItem(id, stringifiedObject);
 }
 
-  function prependCard (newCard, id, title, task, counter = 2) {
+function prependCard (newCard, id, title, task, counter = 2) {
     var ratingArray = ['None', 'Low', 'Normal', 'High', 'Critical']
   $('.idea-list').prepend(
     `<article class="card" id="${newCard.id}">
@@ -79,7 +79,6 @@ function retrieveCard(){
   var parsedObject = JSON.parse(retrievedObject);
   prependCard(parsedObject, parsedObject.id, parsedObject.title, parsedObject.task, parsedObject.counter, parsedObject.completed);
   };
-  displayTen(parsedObject);
 };
 
 function pushToStorage(id, object){
@@ -183,16 +182,18 @@ function showCompleted() {
 }
 
 function hideMore() {
+  console.log('hi')
   for (let i = 0; i < localStorage.length; i++) {
     var retrievedObject = localStorage.getItem(localStorage.key(i));
     var parsedObject = JSON.parse(retrievedObject);
+    console.log(parsedObject)
   if (parsedObject.completed === true) {
       var completedCardId = parsedObject.id
       $(`#${completedCardId}`).hide()
     } else {
       $(`#${completedCardId}`).show()
     }
-  }
+  } displayTen();
 }
 
 
@@ -218,8 +219,9 @@ function filterImportanceNormal( ) {
      $(`#${parsedObjectId}`).show()
   } else  {
     $(`#${parsedObjectId}`).hide()
-} 
-}}
+  } 
+ }
+}
 
 function filterImportanceCritical() {
     for (let i = 0; i < localStorage.length; i++) {
@@ -230,8 +232,8 @@ function filterImportanceCritical() {
      $(`#${parsedObjectId}`).show()
   } else  {
     $(`#${parsedObjectId}`).hide()
-} 
-}
+  } 
+ }
 }
 
 function filterImportanceHigh() {
@@ -243,8 +245,8 @@ function filterImportanceHigh() {
      $(`#${parsedObjectId}`).show()
   } else  {
     $(`#${parsedObjectId}`).hide()
-} 
-}
+  } 
+ }
 }
 
 function filterImportanceLow() {
@@ -256,8 +258,8 @@ function filterImportanceLow() {
      $(`#${parsedObjectId}`).show()
   } else  {
     $(`#${parsedObjectId}`).hide()
-} 
-}
+  } 
+ }
 }
 
 function filterImportanceNone() {
@@ -269,8 +271,8 @@ function filterImportanceNone() {
   $(`#${parsedObjectId}`).show()
   } else  {
     $(`#${parsedObjectId}`).hide()
-} 
-}
+  } 
+ }
 }
 
 function filterImportanceAll() {
@@ -279,6 +281,5 @@ function filterImportanceAll() {
   var parsedObject = JSON.parse(retrievedObject);
   var parsedObjectId = parsedObject.id; 
      $(`#${parsedObjectId}`).show()
- }}
-
-q
+ }
+}
