@@ -78,7 +78,7 @@ function retrieveCard(){
   var retrievedObject = localStorage.getItem(localStorage.key(i));
   var parsedObject = JSON.parse(retrievedObject);
   prependCard(parsedObject, parsedObject.id, parsedObject.title, parsedObject.task, parsedObject.counter, parsedObject.completed);
-  };
+  }
 };
 
 function pushToStorage(id, object){
@@ -165,7 +165,7 @@ function completeTask(card) {
     var retrievedObject = localStorage.getItem(id);
     var parsedObject = JSON.parse(retrievedObject);
     parsedObject.completed = !parsedObject.completed;
-    $(this).closest('article').toggleClass('complete');
+    $(this).closest('article').toggleClass('true');
     pushToStorage(id, parsedObject);
 };
 
@@ -182,11 +182,9 @@ function showCompleted() {
 }
 
 function hideMore() {
-  console.log('hi')
   for (let i = 0; i < localStorage.length; i++) {
     var retrievedObject = localStorage.getItem(localStorage.key(i));
     var parsedObject = JSON.parse(retrievedObject);
-    console.log(parsedObject)
   if (parsedObject.completed === true) {
       var completedCardId = parsedObject.id
       $(`#${completedCardId}`).hide()
@@ -196,9 +194,16 @@ function hideMore() {
   } displayTen();
 }
 
-
 function showMore(){
   $('article:hidden').slice(0, 10).slideDown();
+  for (let i = 0; i < localStorage.length; i++) {
+  var retrievedObject = localStorage.getItem(localStorage.key(i));
+  var parsedObject = JSON.parse(retrievedObject);
+  if (parsedObject.completed === true) {
+      var completedCardId = parsedObject.id
+      $(`#${completedCardId}`).hide()
+  }
+ }
 }
 
 function displayTen() {
