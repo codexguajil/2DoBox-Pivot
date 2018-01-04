@@ -17,7 +17,6 @@ $('.none').on('click', filterImportanceNone);
 $('.show-all').on('click', filterImportanceAll);
 
 retrieveCard();
-hideMore();
 
 function enableSave () {
   var title = $('.title-input');
@@ -78,7 +77,9 @@ function retrieveCard(){
   var retrievedObject = localStorage.getItem(localStorage.key(i));
   var parsedObject = JSON.parse(retrievedObject);
   prependCard(parsedObject, parsedObject.id, parsedObject.title, parsedObject.task, parsedObject.counter, parsedObject.completed);
-  };
+  }
+  hideCompleted();
+  displayTen();
 };
 
 function pushToStorage(id, object){
@@ -177,28 +178,24 @@ function showCompleted() {
       var completedCardId = parsedObject.id
     $(`#${completedCardId}`).addClass('complete');
     $(`#${completedCardId}`).show('slow');
-    } else { }
+    }
   }
 }
 
-function hideMore() {
-  console.log('hi')
+function hideCompleted() {
   for (let i = 0; i < localStorage.length; i++) {
     var retrievedObject = localStorage.getItem(localStorage.key(i));
     var parsedObject = JSON.parse(retrievedObject);
-    console.log(parsedObject)
   if (parsedObject.completed === true) {
       var completedCardId = parsedObject.id
       $(`#${completedCardId}`).hide()
-    } else {
-      $(`#${completedCardId}`).show()
     }
-  } displayTen();
+  }
 }
-
 
 function showMore(){
   $('article:hidden').slice(0, 10).slideDown();
+  hideCompleted();
 }
 
 function displayTen() {
@@ -245,7 +242,7 @@ function filterImportanceHigh() {
      $(`#${parsedObjectId}`).show()
   } else  {
     $(`#${parsedObjectId}`).hide()
-  } 
+  }
  }
 }
 
