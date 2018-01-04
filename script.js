@@ -17,7 +17,6 @@ $('.none').on('click', filterImportanceNone);
 $('.show-all').on('click', filterImportanceAll);
 
 retrieveCard();
-hideMore();
 
 function enableSave () {
   var title = $('.title-input');
@@ -79,6 +78,8 @@ function retrieveCard(){
   var parsedObject = JSON.parse(retrievedObject);
   prependCard(parsedObject, parsedObject.id, parsedObject.title, parsedObject.task, parsedObject.counter, parsedObject.completed);
   }
+  hideCompleted();
+  displayTen();
 };
 
 function pushToStorage(id, object){
@@ -165,7 +166,7 @@ function completeTask(card) {
     var retrievedObject = localStorage.getItem(id);
     var parsedObject = JSON.parse(retrievedObject);
     parsedObject.completed = !parsedObject.completed;
-    $(this).closest('article').toggleClass('true');
+    $(this).closest('article').toggleClass('complete');
     pushToStorage(id, parsedObject);
 };
 
@@ -177,33 +178,24 @@ function showCompleted() {
       var completedCardId = parsedObject.id
     $(`#${completedCardId}`).addClass('complete');
     $(`#${completedCardId}`).show('slow');
-    } else { }
+    }
   }
 }
 
-function hideMore() {
+function hideCompleted() {
   for (let i = 0; i < localStorage.length; i++) {
     var retrievedObject = localStorage.getItem(localStorage.key(i));
     var parsedObject = JSON.parse(retrievedObject);
   if (parsedObject.completed === true) {
       var completedCardId = parsedObject.id
       $(`#${completedCardId}`).hide()
-    } else {
-      $(`#${completedCardId}`).show()
     }
-  } displayTen();
+  }
 }
 
 function showMore(){
   $('article:hidden').slice(0, 10).slideDown();
-  for (let i = 0; i < localStorage.length; i++) {
-  var retrievedObject = localStorage.getItem(localStorage.key(i));
-  var parsedObject = JSON.parse(retrievedObject);
-  if (parsedObject.completed === true) {
-      var completedCardId = parsedObject.id
-      $(`#${completedCardId}`).hide()
-  }
- }
+  hideCompleted();
 }
 
 function displayTen() {
@@ -250,7 +242,7 @@ function filterImportanceHigh() {
      $(`#${parsedObjectId}`).show()
   } else  {
     $(`#${parsedObjectId}`).hide()
-  } 
+  }
  }
 }
 
